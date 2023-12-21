@@ -146,18 +146,3 @@ MiniWindow
       margin-top: 3
       anchors.top: prev.bottom
       anchors.horizontalCenter: prev.horizontalCenter
-
-    BalanceLabel < Label
-      id: balanceLabel
-      text: tr('Account Balance: 0 gp') // "0 gp" to przykładowa wartość początkowa
-      anchors.top: ammoSlot.bottom
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-top: 3
-
-    BankButton < Button
-      id: bankButton
-      icon-source: /images/ui/bank_icon.png 
-      anchors.top: balanceLabel.bottom
-      anchors.horizontalCenter: parent.horizontalCenter
-      margin-top: 3
-      @onClick: modules.game_bank.openBankWindow() 
