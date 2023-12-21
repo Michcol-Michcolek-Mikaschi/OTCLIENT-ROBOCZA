@@ -62,6 +62,7 @@ Creature::Creature() :m_type(Proto::CreatureTypeUnknown)
     */
 }
 
+
 void Creature::draw(const Point& dest, bool drawThings, LightView* lightView)
 {
     if (!canBeSeen() || !canDraw())
@@ -137,6 +138,7 @@ void Creature::drawInformation(const MapPosInfo& mapRect, const Point& dest, boo
 
     Point p = dest - mapRect.drawOffset;
     p += creatureOffset * g_drawPool.getScaleFactor() - Point(std::round(jumpOffset.x), std::round(jumpOffset.y));
+    p += getInformationOffset(); // U¿ycie getInformationOffset
     p.x *= mapRect.horizontalStretchFactor;
     p.y *= mapRect.verticalStretchFactor;
     p += parentRect.topLeft();
@@ -146,7 +148,8 @@ void Creature::drawInformation(const MapPosInfo& mapRect, const Point& dest, boo
     if (!useGray) {
         if (g_game.getFeature(Otc::GameBlueNpcNameColor) && isNpc() && isFullHealth())
             fillColor = NPC_COLOR;
-        else fillColor = m_informationColor;
+        else
+            fillColor = m_informationColor;
     }
 
     // calculate main rects
@@ -163,8 +166,10 @@ void Creature::drawInformation(const MapPosInfo& mapRect, const Point& dest, boo
             p.scale(g_app.getCreatureInformationScale());
         }
 
-        auto backgroundRect = Rect(p.x - (13.5), p.y - cropSizeBackGround, 27, 4);
-        auto textRect = Rect(p.x - nameSize.width() / 2.0, p.y - cropSizeText, nameSize);
+        auto backgroundRect = Rect(p.x + m_informationOffset.x - (13.5), p.y + m_informationOffset.y - cropSizeBackGround, 27, 4);
+
+
+        auto textRect = Rect(p.x + m_informationOffset.x - nameSize.width() / 2.0, p.y + m_informationOffset.y - cropSizeText, nameSize);
 
         if (!isScaled) {
             backgroundRect.bind(parentRect);
@@ -252,7 +257,7 @@ void Creature::internalDraw(Point dest, LightView* lightView, const Color& color
 
                 if (!replaceColorShader && m_mountShader)
                     g_drawPool.setShaderProgram(m_mountShader, true, m_mountShaderAction);
-                m_mountType->draw(dest, 0, m_numPatternX, 0, 0, getCurrentAnimationPhase(true), color);
+                m_mountType->draw(dest, 0, m_numPatternX , 0, 0, getCurrentAnimationPhase(true), color);
 
                 dest += getDisplacement() * g_drawPool.getScaleFactor();
             }
@@ -716,6 +721,11 @@ void Creature::setHealthPercent(uint8_t healthPercent)
 void Creature::setDirection(Otc::Direction direction)
 {
     assert(direction != Otc::InvalidDirection);
+
+    // Jeœli kierunek siê nie zmieni³, nie ma potrzeby wykonywaæ dalszych dzia³añ
+    if (m_direction == direction)
+        return;
+
     m_direction = direction;
 
     // xPattern => creature direction
@@ -727,6 +737,9 @@ void Creature::setDirection(Otc::Direction direction)
         m_numPatternX = direction;
 
     setAttachedEffectDirection(static_cast<Otc::Direction>(m_numPatternX));
+
+    // Wywo³aj funkcjê Lua informuj¹c¹ o zmianie kierunku
+    callLuaField("onDirectionChange", m_direction, direction);
 }
 
 void Creature::setOutfit(const Outfit& outfit)

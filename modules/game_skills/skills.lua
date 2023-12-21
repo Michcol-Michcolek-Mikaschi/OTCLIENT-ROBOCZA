@@ -97,12 +97,22 @@ function toggleSkill(id, state)
 end
 
 function setSkillBase(id, value, baseValue)
+    
     if baseValue <= 0 or value < 0 then
         return
     end
     local skill = skillsWindow:recursiveGetChildById(id)
-    local widget = skill:getChildById('value')
 
+    if not skill then
+        print('Error: Skill is nil for ID ' .. id)
+        return
+    end
+    local widget = skill:getChildById('value')
+    if not skill then
+        print('Error: Skill is nil for ID ' .. id)
+        return
+    end
+    
     if value > baseValue then
         widget:setColor('#008b00') -- green
         skill:setTooltip(baseValue .. ' +' .. (value - baseValue))
@@ -248,11 +258,11 @@ function refresh()
     onSpeedChange(player, player:getSpeed())
 
     local hasAdditionalSkills = g_game.getFeature(GameAdditionalSkills)
-    for i = Skill.Fist, Skill.ManaLeechAmount do
+    for i = Skill.Fist, Skill.Ki_blasting do
         onSkillChange(player, i, player:getSkillLevel(i), player:getSkillLevelPercent(i))
         onBaseSkillChange(player, i, player:getSkillBaseLevel(i))
 
-        if i > Skill.Fishing then
+        if i > Skill.Ki_blasting then
             toggleSkill('skillId' .. i, hasAdditionalSkills)
         end
     end

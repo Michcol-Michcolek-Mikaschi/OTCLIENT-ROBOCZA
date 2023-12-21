@@ -58,6 +58,7 @@
 #include "houses.h"
 #endif
 
+
 #include <framework/luaengine/luainterface.h>
 
 void Client::registerLuaFunctions()
@@ -72,6 +73,7 @@ void Client::registerLuaFunctions()
     g_lua.bindSingletonFunction("g_things", "getThingType", &ThingTypeManager::getThingType, &g_things);
     g_lua.bindSingletonFunction("g_things", "getThingTypes", &ThingTypeManager::getThingTypes, &g_things);
     g_lua.bindSingletonFunction("g_things", "findThingTypeByAttr", &ThingTypeManager::findThingTypeByAttr, &g_things);
+    g_lua.bindSingletonFunction("g_things", "findServerIdByName", &ThingTypeManager::findServerIdByName, &g_things);
 
 #ifdef FRAMEWORK_EDITOR
     g_lua.bindSingletonFunction("g_things", "getItemType", &ThingTypeManager::getItemType, &g_things);
@@ -555,7 +557,10 @@ void Client::registerLuaFunctions()
     g_lua.bindClassMemberFunction<Creature>("getTimedSquareColor", &Creature::getTimedSquareColor);
     g_lua.bindClassMemberFunction<Creature>("isStaticSquareVisible", &Creature::isStaticSquareVisible);
     g_lua.bindClassMemberFunction<Creature>("getStaticSquareColor", &Creature::getStaticSquareColor);
-
+    g_lua.bindClassMemberFunction<Creature>("setDrawOutfitColor", &Creature::setDrawOutfitColor);
+    g_lua.bindClassMemberFunction<Creature>("setDisableWalkAnimation", &Creature::setDisableWalkAnimation);
+    g_lua.bindClassMemberFunction<Creature>("setInformationOffset", &Creature::setInformationOffset);
+    g_lua.bindClassMemberFunction<Creature>("getInformationOffset", &Creature::getInformationOffset);
 #ifndef BOT_PROTECTION
     g_lua.bindClassMemberFunction<Creature>("setText", &Creature::setText);
     g_lua.bindClassMemberFunction<Creature>("getText", &Creature::getText);

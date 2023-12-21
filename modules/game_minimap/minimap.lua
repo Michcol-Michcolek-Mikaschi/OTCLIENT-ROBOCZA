@@ -5,6 +5,7 @@ local minimapButton = nil
 -- bot fix
 minimapWidget = nil
 
+
 local function updateCameraPosition()
     local player = g_game.getLocalPlayer()
     if not player then

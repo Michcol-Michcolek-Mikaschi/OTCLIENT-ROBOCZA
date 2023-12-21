@@ -52,12 +52,19 @@ Skill = {
     Distance = 4,
     Shielding = 5,
     Fishing = 6,
-    CriticalChance = 7,
-    CriticalDamage = 8,
-    LifeLeechChance = 9,
-    LifeLeechAmount = 10,
-    ManaLeechChance = 11,
-    ManaLeechAmount = 12
+    Energy = 7,
+    Defence = 8,
+    Szybkosc = 9,
+    Train_points = 10,
+    Sila = 11,
+    Miecz = 12,
+    Ki_blasting = 13,
+    CriticalChance = 14,
+    CriticalDamage = 15,
+    LifeLeechChance = 16,
+    LifeLeechAmount = 17,
+    ManaLeechChance = 18,
+    ManaLeechAmount = 19,
 }
 
 North = Directions.North

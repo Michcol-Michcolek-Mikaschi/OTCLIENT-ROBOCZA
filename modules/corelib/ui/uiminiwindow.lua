@@ -471,7 +471,7 @@ function UIMiniWindow:eraseSettings(data)
   end
 
   if data ~= nil then
-    for key, value in pairs(data) do
+  for key, value in pairs(data) do
       settings[char][id][key] = nil
     end
   end

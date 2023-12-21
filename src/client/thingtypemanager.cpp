@@ -30,6 +30,7 @@
 #include "creatures.h"
 #endif
 
+
 #include <framework/core/eventdispatcher.h>
 #include <framework/core/binarytree.h>
 #include <framework/core/filestream.h>
@@ -57,6 +58,7 @@ void ThingTypeManager::init()
     m_nullItemType = std::make_shared<ItemType>();
     m_itemTypes.resize(1, m_nullItemType);
 #endif
+
 
     // Garbage Collection
     {
@@ -351,7 +353,13 @@ const ItemTypePtr& ThingTypeManager::findItemTypeByClientId(uint16_t id)
         return m_reverseItemTypes[id];
     return m_nullItemType;
 }
-
+uint16_t ThingTypeManager::findServerIdByName(const std::string& name) {
+    for (const ItemTypePtr& itemType : m_itemTypes) {
+        if (itemType->getName() == name)
+            return itemType->getServerId();
+    }
+    return 0; // Zwraca 0, jeœli przedmiot nie zostanie znaleziony
+}
 const ItemTypePtr& ThingTypeManager::findItemTypeByName(const std::string& name)
 {
     for (const ItemTypePtr& it : m_itemTypes)
@@ -429,22 +437,31 @@ void ThingTypeManager::saveDat(const std::string& fileName)
     }
 }
 
-void ThingTypeManager::loadOtb(const std::string& file)
-{
+void ThingTypeManager::loadOtb(const std::string& file) {
     try {
         const auto& fin = g_resources.openFile(file);
+        if (!fin) {
+            g_logger.error(stdext::format("Unable to open file '%s'", file));
+            return;
+        }
+
         fin->cache();
 
         uint32_t signature = fin->getU32();
         if (signature != 0)
-            throw Exception("invalid otb file");
+            throw Exception("invalid otb file signature");
 
         const auto& root = fin->getBinaryTree();
+        if (!root) {
+            g_logger.error(stdext::format("Failed to create binary tree from file '%s'", file));
+            return;
+        }
+
         root->skip(1); // otb first byte is always 0
 
         signature = root->getU32();
         if (signature != 0)
-            throw Exception("invalid otb file");
+            throw Exception("invalid otb file signature at root");
 
         if (const uint8_t rootAttr = root->getU8(); rootAttr == 0x01) { // OTB_ROOT_ATTR_VERSION
             if (const uint16_t size = root->getU16(); size != 4 + 4 + 4 + 128)
@@ -528,6 +545,7 @@ void ThingTypeManager::loadXml(const std::string& file)
         g_logger.error(stdext::format("Failed to load '%s' (XML file): %s", file, e.what()));
     }
 }
+
 
 #endif
 

@@ -1,0 +1,48 @@
+MainWindow
+  size: 300 400
+  id: teleportWindow
+  text: tr('Teleport System')
+
+  VerticalLayout
+    id: mainLayout
+    anchors.fill: parent
+    margin-top: 10
+    margin-bottom: 10
+    margin-left: 10
+    margin-right: 10
+    spacing: 10
+
+    Label
+      id: cityLabel
+      text: tr('Choose a city:')
+
+    ComboBox
+      id: cityComboBox
+      items: 'City1, City2, City3, City4, City5'
+
+    Label
+      id: slotLabel
+      text: tr('Choose a slot:')
+
+    ComboBox
+      id: slotComboBox
+      items: 'Slot1, Slot2, Slot3, Slot4, Slot5'
+
+    HorizontalSeparator
+
+    Button
+      id: saveButton
+      text: tr('Save my position')
+      @onClick: /* function to save position */
+
+    Button
+      id: teleportButton
+      text: tr('Teleport')
+      @onClick: /* function to teleport */
+
+    HorizontalSeparator
+
+    Button
+      id: closeButton
+      text: tr('Close')
+      @onClick: /* function to close window */

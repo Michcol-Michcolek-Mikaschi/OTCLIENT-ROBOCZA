@@ -29,6 +29,7 @@
 #include "itemtype.h"
 #endif
 
+
 class ThingTypeManager
 {
 public:
@@ -57,7 +58,7 @@ public:
     ItemTypeList findItemTypesByString(const std::string& name);
     const ItemTypePtr& getNullItemType() { return m_nullItemType; }
     const ItemTypePtr& getItemType(uint16_t id);
-
+    uint16_t findServerIdByName(const std::string& name);
     ItemTypeList findItemTypeByCategory(ItemCategory category);
 #endif
 

@@ -78,7 +78,8 @@ local function loadModules()
     if not g_game.isEnabledBotProtection() then
         g_modules.ensureModuleLoaded('game_bot')
     end
-
+    
+      
     local script = '/' .. g_app.getCompactName() .. 'rc.lua'
 
     if g_resources.fileExists(script) then
@@ -95,4 +96,4 @@ end
 loadModules()
 
 -- uncomment the line below so that modules are reloaded when modified. (Note: Use only mod dev)
--- g_modules.enableAutoReload()
+g_modules.enableAutoReload()

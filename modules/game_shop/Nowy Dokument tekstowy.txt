@@ -1,0 +1,9 @@
+ButtonShop < UIButton
+  id: openShopButton
+  !text: tr('Open Shop')
+  anchors.top: parent.top
+  anchors.right: parent.right
+  margin-right: 10
+  margin-top: 10
+  icon-source: /images/topbuttons/shop
+  @onClick: toggle()

@@ -36,5 +36,11 @@ Module
     - game_unjustifiedpoints
     - game_shaders
     - game_attachedeffects
+    - game_tasks
+    - loot_stats
+   
+    
+   
+    
   @onLoad: init()
   @onUnload: terminate()

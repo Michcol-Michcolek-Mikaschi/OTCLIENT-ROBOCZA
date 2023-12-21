@@ -40,6 +40,7 @@ public:
 class Creature : public Thing
 {
 public:
+    
     static double speedA;
     static double speedB;
     static double speedC;
@@ -50,13 +51,17 @@ public:
 
     void onAppear() override;
     void onDisappear() override;
-
+    
+    
     void draw(const Point& dest, bool drawThings = true, LightView* lightView = nullptr) override;
     void draw(const Rect& destRect, uint8_t size);
 
     void internalDraw(Point dest, LightView* lightView = nullptr, const Color& color = Color::white);
     void drawInformation(const MapPosInfo& mapRect, const Point& dest, bool useGray, int drawFlags);
 
+   
+
+    
     void setId(uint32_t id) override { m_id = id; }
     void setMasterId(uint32_t id) { m_masterId = id; }
     void setName(const std::string_view name) { m_name.setText(name); }
@@ -119,7 +124,8 @@ public:
     uint32_t getId() override { return m_id; }
     uint32_t getMasterId() { return m_masterId; }
     std::string getName() { return m_name.getText(); }
-
+    Point getInformationOffset() { return m_informationOffset; }
+    void setInformationOffset(int x, int y) { m_informationOffset = Point(x, y); }
     Otc::Direction getDirection() { return m_direction; }
     Outfit getOutfit() { return m_outfit; }
     const Light& getLight() const override;
@@ -263,6 +269,8 @@ private:
     Position m_lastStepToPosition;
     Position m_oldPosition;
 
+   Point m_informationOffset;
+    Point m_outfitOffset;
     // jump related
     float m_jumpHeight{ 0 };
     float m_jumpDuration{ 0 };

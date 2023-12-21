@@ -1,0 +1,397 @@
+ShopCategory < Panel
+  height: 36
+  focusable: true
+  background: alpha
+
+  $focus:
+    background: #99999999
+  
+  Label
+    id: name
+    text-align: left
+    text-offset: 40 0
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-left: 3
+    margin-top: 2 
+
+CategoryIconSprite < UISprite
+  id: categoryItem
+  anchors.fill: parent
+
+CategoryIconItem < UIItem
+  id: categoryItem
+  anchors.fill: parent
+  virtual: true
+
+CategoryIconCreature < UICreature
+  id: categoryItem
+  anchors.fill: parent
+
+MiniPanel < Panel
+  text-align: top
+  text-offset: 0 0
+  image-source: /images/ui/miniwindow
+  image-border: 4
+  image-border-top: 15
+  padding-top: 0
+  padding-bottom: 3
+  padding-left: 3
+  padding-right: 1
+
+OfferWidget < MiniPanel
+  focusable: true
+  border-width: 1
+  border-color: alpha
+  margin: 9 0 0 7
+  phantom: false
+  @onDoubleClick: modules.game_store.purchaseDouble(self)
+
+  $focus:
+    border-color: #ffffff
+
+  Label
+    id: offerNameHidden
+    phantom: true
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    visible: true
+
+  Panel
+    id: offerTypePanel
+    anchors.top: parent.top
+    anchors.bottom: next.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin: 0 2 1 0
+
+  UIWidget
+    id: offerPriceSlot
+    height: 20
+    image-source: /images/ui/item
+    image-border: 10
+    anchors.bottom: parent.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin: 4 6 4 6
+
+  Label
+    id: offerPrice
+    &baseText: '%s'
+    color: #28db00
+    text-auto-resize: true
+    anchors.verticalCenter: offerPriceSlot.verticalCenter
+    anchors.horizontalCenter: offerPriceSlot.horizontalCenter 
+    margin-right: 5
+
+  UIWidget
+    size: 12 12
+    image-source: /images/store/coin
+    anchors.left: offerPrice.right
+    anchors.verticalCenter: offerPrice.verticalCenter
+    margin-left: 4
+
+OfferIconItem < UIItem
+  id: offerIcon
+  size: 34 34
+  padding: 1
+  anchors.centerIn: parent
+  margin-top: 15
+  virtual: true
+  phantom: true
+
+OfferIconCreature < UICreature
+  id: offerIcon
+  size: 64 64
+  anchors.centerIn: parent
+  phantom: true
+
+HistoryLabel < Label
+  height: 18
+  focusable: true
+  background: alpha
+
+  $focus:
+    background: #232323
+
+MainWindow
+  id: storeWindow
+  !text: 'Store'
+  text-offset: 0 3
+  size: 724 513
+  @onEscape: modules.game_store.hide()
+-----------------------------------------------
+  Panel
+    id: topPanel
+    height: 71
+    image-source: /images/ui/YourImage
+    image-border: 3
+    padding: 5
+    anchors.top: infoPanel.top
+    anchors.left: infoPanel.right
+    anchors.right: parent.right
+    margin-left: 5  
+------------------------------
+nizej podobno zły
+Panel
+    id: infoPanel
+    width: 185
+    height: 48
+    image-source: /images/ui/menubox
+    image-border: 3
+    padding: 5
+    anchors.top: parent.top
+    anchors.left: parent.left
+    margin-top: 0
+---------------------------------------------------
+    Label
+      !text: 'Your current balance:'
+      text-auto-resize: true
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+
+    Label
+      id: points
+      &baseText: '%s'
+      text-auto-resize: true
+      anchors.bottom: parent.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+
+    UIWidget
+      size: 12 12
+      image-source: /images/store/coin
+      anchors.left: points.right
+      anchors.verticalCenter: points.verticalCenter
+      margin-left: 4
+
+  ClassicButton86
+    id: historyButtonTop
+    !text: 'History'
+    anchors.top: infoPanel.bottom
+    anchors.left: infoPanel.left
+    @onClick: modules.game_store.showHistory()
+    margin: 3 0 0 0
+    
+  ClassicButton86
+    id: buyPoints
+    !text: 'Get'
+    text-offset: -14 0
+    color: #28db00
+    icon-size: 12 12
+    icon: /images/store/coin
+    icon-offset-x: 47
+    icon-offset-y: 3
+    anchors.top: infoPanel.bottom
+    anchors.right: infoPanel.right
+    @onClick: modules.game_store.buyPoints()
+    margin: 3 0 0 0
+
+    $pressed:
+      icon-offset-x: 55
+      icon-offset-y: 4
+
+  Label
+    id: categoriesLabel
+    !text: 'Categories:'
+    anchors.top: buyPoints.bottom
+    anchors.left: infoPanel.left
+    anchors.right: infoPanel.right
+    margin-top: 5
+
+  TextList    
+    id: categories
+    height: 323
+    padding: 1
+    anchors.top: categoriesLabel.bottom
+    anchors.left: infoPanel.left
+    anchors.right: infoPanel.right
+    margin-top: 6
+    focusable: false
+
+  Panel
+    width: 36
+    anchors.top: categories.top
+    anchors.bottom: categories.bottom
+    anchors.left: categories.left
+    margin: 1 0 1 1
+
+    UIWidget
+      id: icon1
+      size: 32 32
+      image-source: /images/store/items
+      anchors.top: parent.top
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 2
+      phantom: true
+      focusable: false
+
+    UIWidget
+      id: icon2
+      size: 32 32
+      image-source: /images/store/outfit
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 5
+      phantom: true
+      focusable: false
+
+    UIWidget
+      id: icon3
+      size: 32 32
+      image-source: /images/store/premium
+      image-size: 29 25
+      image-offset: 1 4
+      anchors.top: prev.bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      margin-top: 5
+      phantom: true
+      focusable: false
+
+  Panel
+    id: topPanel
+    height: 71
+    image-source: /images/ui/menubox
+    image-border: 3
+    padding: 5
+    anchors.top: infoPanel.top
+    anchors.left: infoPanel.right
+    anchors.right: parent.right
+    margin-left: 5
+
+    Panel
+      id: categoryItemBg
+      size: 64 64
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      padding: 8
+
+    Label
+      id: selectedCategory
+      height: 18
+      font: verdana-11px-antialised
+      color: yellow
+      !text: 'Carunia Shop'
+      text-auto-resize: true
+      text-wrap: false
+      anchors.bottom: categoryItemBg.verticalCenter
+      anchors.left: categoryItemBg.right
+      margin-bottom: 6
+      margin-left: 16
+
+    Label
+      id: categoryDescription
+      font: verdana-11px-antialised
+      text-auto-resize: true
+      text-wrap: false
+      anchors.top: categoryItemBg.verticalCenter
+      anchors.left: categoryItemBg.right
+      margin-top: 2
+      margin-left: 16
+
+  Label
+    id: productsLabel
+    !text: 'Products:'
+    anchors.top: topPanel.bottom
+    anchors.left: topPanel.left
+    anchors.right: topPanel.right
+    margin-top: 6
+  
+  ScrollablePanel
+    id: offers
+    image-source: /images/ui/menubox
+    image-border: 3
+    padding: 3
+    anchors.top: categories.top
+    anchors.left: topPanel.left
+    anchors.right: topPanel.right
+    anchors.bottom: categories.bottom
+    focusable: false
+    vertical-scrollbar: offersScrollBar
+    layout:
+      type: grid
+      cell-size: 113 133
+      flow: true
+      cell-spacing: 7
+
+  VerticalScrollBar
+    id: offersScrollBar
+    anchors.top: offers.top
+    anchors.bottom: offers.bottom
+    anchors.right: offers.right
+    margin: 3 3 3 0
+    step: 50
+    pixels-scroll: true
+
+  TextList    
+    id: history
+    height: 424
+    vertical-scrollbar: historyScrollBar
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    margin-top: 5
+    padding: 2
+    focusable: false
+    visible: false
+
+  VerticalScrollBar
+    id: historyScrollBar
+    anchors.top: history.top
+    anchors.bottom: history.bottom
+    anchors.right: history.right
+    margin: 1 1 1 0
+    step: 50
+    pixels-scroll: true
+    visible: false
+
+  ClassicButton86
+    id: backButton
+    !text: 'Back'
+    anchors.left: infoPanel.left
+    anchors.bottom: parent.bottom
+    @onClick: modules.game_store.hideHistory()
+    visible: false
+
+  ClassicButton86
+    id: giftCoinButton
+    icon: /images/store/giftcoin
+    anchors.top: categories.bottom
+    anchors.left: categories.left
+    margin-top: 3
+    @onClick: modules.game_store.toggleGiftCoins()
+
+  Label
+    id: searchLabel
+    height: 22
+    !text: 'Search'
+    text-align: center
+    text-auto-resize: true
+    anchors.right: search.left
+    anchors.verticalCenter: search.verticalCenter
+    margin-right: 7
+
+  TextEdit
+    id: search
+    width: 120
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    @onKeyPress: modules.game_store.onSearch()
+
+  ClassicButton86
+    id: purchaseButton
+    !text: 'Purchase'
+    margin-right: 10
+    anchors.right: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    enabled: false
+    @onClick: modules.game_store.purchase()
+
+  ClassicButton86
+    id: buttonCancel
+    !text: 'Close'
+    anchors.left: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    @onClick: modules.game_store.hide()

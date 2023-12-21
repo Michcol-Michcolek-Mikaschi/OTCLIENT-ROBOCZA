@@ -4,7 +4,10 @@ controller:registerEvents(g_game, {
         -- g_game.enableFeature(GameKeepUnawareTiles)
         -- g_game.enableFeature(GameSmoothWalkElevation)
         g_game.enableFeature(GameFormatCreatureName)
-
+        g_game.enableFeature(GameSpritesU32)
+        g_game.enableFeature(GameExtendedOpcode)
+        g_game.enableFeature(GameMagicEffectU16)
+        g_game.enableFeature(GamePlayerMarket)
         if version >= 750 then
             g_game.enableFeature(GameSoul);
         end

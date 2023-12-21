@@ -1,0 +1,9 @@
+Module
+  name: game_kinto
+  description: Displays tasks system
+  author: Rookgaard
+  sandboxed: true
+  scripts: [ kinto ]
+  @onLoad: init()
+  @onUnload: terminate()
+  
